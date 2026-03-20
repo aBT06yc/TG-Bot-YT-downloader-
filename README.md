@@ -24,11 +24,14 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519_github
 ```
 
-КОПИРУЕМ. Его вставляем в GitHub
+КОПИРУЕМ. Его вставляем в GitHub (Deploy keys)
 
 ```bash
 cat ~/.ssh/id_ed25519_github.pub
 ```
+
+‼️ ЭТО НЕ `VPS_SSH_KEY`, это ключ для клонирования репозитория 
+
 
 Создать SSH-конфиг:
 
@@ -47,15 +50,32 @@ EOF
 ssh -T git@github.com
 ```
 
-Ну и клонируем репу `git clone ... ыыы` с папку  `/opt/tg-bot-yt-downloader`
+Ну и клонируем репу. ‼️ **ВНИМАНИЕ НА ТОЧКУ В КОНЦЕ**. НУЖНО СКОПИРОВАТЬ В ТЕКУЩУЮ ДИРЕКТОРИЮ, А ТО ДЕПЛОЦ УПАДЕТ НАХУЙ
+```bash
+git clone REPO .   
+``` 
+с папку  `/opt/tg-bot-yt-downloader`
 
 ‼️ НЕ ЗАБЫВАЕМ ПРО `.env`. Пример:`.env.example`
 
 ‼️ НЕ ЗАБЫВАЕМ Сделать файл исполняемым:
 
 ```bash
-chmod +x /opt/tg-bot/scripts/deploy.sh
+chmod +x /opt/tg-bot-yt-downloader/scripts/deploy.sh
 ```
+
+Теперь создадим ключ для `VPS_SSH_KEY`:
+
+```bash
+    ssh-keygen -t ed25519 -C "github-actions-vps" -f ~/.ssh/id_ed25519_actions
+```
+
+Забираем публичный ключ и вставляем в секрет `VPS_SSH_KEY`
+
+```bash
+cat ~/.ssh/id_ed25519_actions.pub
+```
+
 
 Секреты в GitHub:
 
