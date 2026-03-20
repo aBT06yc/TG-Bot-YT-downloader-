@@ -71,6 +71,7 @@ chmod +x /opt/tg-bot-yt-downloader/scripts/deploy.sh
 ```
 
 Добавим этот ключ в доверенные к подключению
+
 ```bash
 cat ~/.sshid_ed25519_actions.pub >> ~/.ssh/authorized_keys
 ```
