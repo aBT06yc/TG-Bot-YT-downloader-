@@ -12,7 +12,8 @@ cd "$APP_DIR"
 echo "==> Update code"
 git fetch origin
 git checkout "$BRANCH"
-git pull origin "$BRANCH"
+git reset --hard "origin/$BRANCH"
+git clean -fd -e .env
 
 echo "==> Build image"
 docker build -t "$IMAGE_NAME" .
