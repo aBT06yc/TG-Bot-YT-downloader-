@@ -50,11 +50,11 @@ EOF
 ssh -T git@github.com
 ```
 
-Ну и клонируем репу. ‼️ **ВНИМАНИЕ НА ТОЧКУ В КОНЦЕ**. НУЖНО СКОПИРОВАТЬ В ТЕКУЩУЮ ДИРЕКТОРИЮ, А ТО ДЕПЛОЦ УПАДЕТ НАХУЙ
+Ну и клонируем репу. ‼️ **ВНИМАНИЕ НА ТОЧКУ В КОНЦЕ**. НУЖНО СКОПИРОВАТЬ В ТЕКУЩУЮ ДИРЕКТОРИЮ, А ТО ДЕПЛОй УПАДЕТ НАХУЙ
 ```bash
 git clone REPO .   
 ``` 
-с папку  `/opt/tg-bot-yt-downloader`
+в папку  `/opt/tg-bot-yt-downloader`
 
 ‼️ НЕ ЗАБЫВАЕМ ПРО `.env`. Пример:`.env.example`
 
@@ -67,19 +67,19 @@ chmod +x /opt/tg-bot-yt-downloader/scripts/deploy.sh
 Теперь создадим ключ для `VPS_SSH_KEY`:
 
 ```bash
-    ssh-keygen -t ed25519 -C "github-actions-vps" -f ~/.ssh/id_ed25519_actions
+ssh-keygen -t ed25519 -C "github-actions-vps" -f ~/.ssh/id_ed25519_github_actions
 ```
 
 Добавим этот ключ в доверенные к подключению
 
 ```bash
-cat ~/.sshid_ed25519_actions.pub >> ~/.ssh/authorized_keys
+cat ~/.ssh/id_ed25519_github_actions.pub >> ~/.ssh/authorized_keys
 ```
 
 Забираем **приватный ключ** и вставляем в секрет `VPS_SSH_KEY`
 
 ```bash
-cat ~/.ssh/id_ed25519_actions
+cat ~/.ssh/id_ed25519_github_actions
 ```
 
 
@@ -93,3 +93,25 @@ cat ~/.ssh/id_ed25519_actions
 
 - `VPS_SSH_KEY` — приватный SSH-ключ для GitHub Actions
 
+
+## ‼️ ЭТО СТОИТ ПРОЧИТАТЬ
+
+Ребята, docker какашка. Если вы питонист (боже успаси) то .env можно читать миллионом способов.
+
+Можно подать его при билде контейнера с помощью  `--env-file` (в `scripts\deploy.sh`)
+```bash
+docker run -d \
+  --name "$CONTAINER_NAME" \
+  --restart unless-stopped \
+  --env-file "$ENV_FILE" \
+  "$IMAGE_NAME"
+
+```
+
+Можно скопировать в `Dockerfile` 
+
+```Dockerfile
+  COPY .env .env
+```
+
+‼️**Делайте что-то одно, у меня деплой падал если сразу все варианты**
