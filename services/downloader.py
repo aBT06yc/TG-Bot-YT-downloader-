@@ -61,7 +61,7 @@ def select_format(url, platform):
         return None
 
 
-def download_video(url, selected_format, platform):
+def download_video(url, selected_format, platform) -> str | None:
     os.makedirs(OUTPUT_PATH, exist_ok=True)
 
     ydl_opts = {**BASE_OPTS, "format": selected_format["format_id"]}

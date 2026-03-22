@@ -11,14 +11,14 @@ router = Router()
 
 
 @router.callback_query(F.data == "dl_no")
-async def cancel_download(callback: CallbackQuery):
+async def cancel_download(callback: CallbackQuery) -> None:
 
     await callback.message.delete()
     await callback.answer()
 
 
 @router.callback_query(F.data.startswith("dl_yes"))
-async def start_download(callback: CallbackQuery):
+async def start_download(callback: CallbackQuery) -> None:
     await callback.answer()
     await callback.message.edit_text("Checking video...")
 
